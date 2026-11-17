@@ -1,0 +1,57 @@
+name: NDAX recorder
+# Read-only recorder of NDAX's public live feed (best bid/ask and trades) plus Kraken's best bid/ask.
+# No account, no keys, no orders. Runs in rounds of about 55 minutes and starts the next round itself.
+# It only runs while this repository is public (public repositories get free Actions minutes).
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ndax-recorder.yml"
+      - "scripts/ndax_recorder.py"
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: ndax-recorder
+  cancel-in-progress: false
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Stop if the repository is private
+        id: vis
+        run: |
+          p=$(gh api repos/${{ github.repository }} -q .private)
+          echo "private=$p" >> "$GITHUB_OUTPUT"
+          if [ "$p" != "false" ]; then echo "Repository is private: the recorder does not run."; fi
+      - uses: actions/checkout@v4
+        if: steps.vis.outputs.private == 'false'
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        if: steps.vis.outputs.private == 'false'
+        with:
+          python-version: "3.12"
+      - name: Record for about 55 minutes
+        if: steps.vis.outputs.private == 'false'
+        run: |
+          pip install -q websockets
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          start=$SECONDS
+          python scripts/ndax_recorder.py --seconds 3300 || echo "recorder exited with an error"
+          echo "ran_seconds=$((SECONDS - start))" >> "$GITHUB_ENV"
+      - name: Start the next round
+        if: steps.vis.outputs.private == 'false' && always()
+        run: |
+          if [ "${ran_seconds:-0}" -ge 1800 ]; then
+            gh workflow run ndax-recorder.yml --ref main -R ${{ github.repository }}
+          else
+            echo "Round was cut short; the hourly schedule will restart it."
+          fi
