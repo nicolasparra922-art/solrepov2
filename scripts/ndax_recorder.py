@@ -6,7 +6,7 @@ Writes gzipped CSV chunks to ndax/ every 5 minutes and commits them.
 
 Usage: python scripts/ndax_recorder.py --seconds 3300
 """
-import argparse, asyncio, csv, datetime as dt, gzip, io, json, os, subprocess, time
+import argparse, asyncio, csv, datetime as dt, gzip, hashlib, io, json, os, subprocess, time
 
 import websockets
 
@@ -22,6 +22,7 @@ buf = {"l1": [], "trades": [], "kraken": []}
 stats = {"started": int(time.time()), "ndax_connects": 0, "kraken_connects": 0, "ndax_msgs": 0, "kraken_msgs": 0,
          "trades": 0, "l1": 0, "kraken_rows": 0, "errors": [], "instruments": {}, "kraken_rejected": []}
 seen_trades = set()
+SELF_HASH = hashlib.sha256(open(__file__, "rb").read()).hexdigest()
 k_last = {}              # symbol -> (second, bid, ask) to keep at most one row per second per symbol
 
 
@@ -70,7 +71,7 @@ async def ndax_loop(stop_at):
     backoff = 5
     while time.time() < stop_at:
         try:
-            async with websockets.connect(NDAX_WS, ping_interval=20, ping_timeout=20, max_size=2 ** 22) as ws:
+            async with websockets.connect(NDAX_WS, ping_interval=None, max_size=2 ** 22) as ws:   # NDAX does not answer protocol pings
                 stats["ndax_connects"] += 1
                 seq = 2
                 await ws.send(frame(seq, "GetInstruments", {"OMSId": 1}))
@@ -83,15 +84,21 @@ async def ndax_loop(stop_at):
                             if p2 == "CAD" and p1 in COINS:
                                 inst_coin[x["InstrumentId"]] = p1
                 stats["instruments"] = {v: k for k, v in inst_coin.items()}
-                for iid in sorted(inst_coin):
+                for k, iid in enumerate(sorted(inst_coin)):
+                    if k and k % 8 == 0:
+                        seq += 2; await ws.send(frame(seq, "Ping", {}))
                     await asyncio.sleep(SUB_PAUSE); seq += 2
                     await ws.send(frame(seq, "SubscribeLevel1", {"OMSId": 1, "InstrumentId": iid}))
                     await asyncio.sleep(SUB_PAUSE); seq += 2
                     await ws.send(frame(seq, "SubscribeTrades", {"OMSId": 1, "InstrumentId": iid, "IncludeLastCount": 50}))
                 backoff = 5
+                last_ping = time.time()
                 while time.time() < stop_at:
+                    if time.time() - last_ping > 15:     # NDAX's own keep-alive message
+                        seq += 2; last_ping = time.time()
+                        await ws.send(frame(seq, "Ping", {}))
                     try:
-                        msg = await asyncio.wait_for(ws.recv(), 60)
+                        msg = await asyncio.wait_for(ws.recv(), 15)
                     except asyncio.TimeoutError:
                         continue
                     n, o = handle_ndax(msg, inst_coin)
@@ -173,6 +180,9 @@ def flush(final=False):
     else:
         err("save failed this time")
     print("flushed", {k: stats[k] for k in ("trades", "l1", "kraken_rows", "ndax_connects", "kraken_connects")}, flush=True)
+    if hashlib.sha256(open(__file__, "rb").read()).hexdigest() != SELF_HASH:
+        print("recorder code changed on main: ending this round so the new version takes over", flush=True)
+        os._exit(0)
 
 
 async def flusher(stop_at):
