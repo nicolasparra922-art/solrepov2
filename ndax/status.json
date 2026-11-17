@@ -2,11 +2,11 @@
 "started": 1794943467,
 "ndax_connects": 3,
 "kraken_connects": 3,
-"ndax_msgs": 2721,
-"kraken_msgs": 682956,
-"trades": 907,
-"l1": 2407,
-"kraken_rows": 33177,
+"ndax_msgs": 3064,
+"kraken_msgs": 769704,
+"trades": 919,
+"l1": 2719,
+"kraken_rows": 37052,
 "errors": [
 "19:37:26 kraken connection: ConnectionClosedError no close frame received or sent",
 "19:40:43 kraken connection: ConnectionClosedError no close frame received or sent",
@@ -32,5 +32,5 @@
 "SUI": 123
 },
 "kraken_rejected": [],
-"last_flush": "2026-11-17 20:09:46"
+"last_flush": "2026-11-17 20:14:48"
 }
