@@ -1,28 +1,13 @@
 {
-"started": 1794930032,
-"ndax_connects": 14,
+"started": 1794933487,
+"ndax_connects": 1,
 "kraken_connects": 1,
-"ndax_msgs": 0,
-"kraken_msgs": 2059944,
-"trades": 0,
-"l1": 0,
-"kraken_rows": 53885,
-"errors": [
-"15:41:23 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"15:42:18 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"15:43:19 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"15:44:29 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"15:45:59 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"15:48:09 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"15:51:40 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"15:57:30 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"16:03:20 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"16:09:10 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"16:15:01 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"16:20:51 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"16:26:41 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
-"16:32:31 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received"
-],
+"ndax_msgs": 299,
+"kraken_msgs": 138641,
+"trades": 809,
+"l1": 258,
+"kraken_rows": 4558,
+"errors": [],
 "instruments": {
 "BTC": 1,
 "ETH": 3,
@@ -42,5 +27,5 @@
 "SUI": 123
 },
 "kraken_rejected": [],
-"last_flush": "2026-11-17 16:37:31"
+"last_flush": "2026-11-17 16:43:07"
 }
