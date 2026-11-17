@@ -2,10 +2,10 @@
 "started": 1794953452,
 "ndax_connects": 2,
 "kraken_connects": 1,
-"ndax_msgs": 3161,
+"ndax_msgs": 3162,
 "kraken_msgs": 767257,
 "trades": 915,
-"l1": 2814,
+"l1": 2815,
 "kraken_rows": 37943,
 "errors": [
 "22:26:45 ndax connection: ConnectionClosedError no close frame received or sent"
@@ -29,5 +29,5 @@
 "SUI": 123
 },
 "kraken_rejected": [],
-"last_flush": "2026-11-17 23:05:52"
+"last_flush": "2026-11-17 23:06:02"
 }
