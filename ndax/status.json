@@ -1,0 +1,36 @@
+{
+"started": 1794930032,
+"ndax_connects": 5,
+"kraken_connects": 1,
+"ndax_msgs": 0,
+"kraken_msgs": 138778,
+"trades": 0,
+"l1": 0,
+"kraken_rows": 4986,
+"errors": [
+"15:41:23 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
+"15:42:18 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
+"15:43:19 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received",
+"15:44:29 ndax connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received"
+],
+"instruments": {
+"BTC": 1,
+"ETH": 3,
+"XRP": 4,
+"LTC": 5,
+"DOGE": 77,
+"ADA": 78,
+"LINK": 81,
+"DOT": 83,
+"UNI": 84,
+"SHIB": 92,
+"HBAR": 97,
+"AVAX": 98,
+"SOL": 99,
+"NEAR": 103,
+"PEPE": 115,
+"SUI": 123
+},
+"kraken_rejected": [],
+"last_flush": "2026-11-17 15:45:33"
+}
