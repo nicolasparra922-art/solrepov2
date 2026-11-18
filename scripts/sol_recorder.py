@@ -102,9 +102,11 @@ def snapshots(mints, diag):
             diag["errors"].append(f"snapshot {i}: {str(e)[:80]}"); time.sleep(1); continue
         for p in data if isinstance(data, list) else []:
             try:
-                m = p["baseToken"]["address"]; liq = num((p.get("liquidity") or {}).get("usd")) or 0
-                if m not in best or liq > best[m]["_liq"]:
-                    p["_liq"] = liq; best[m] = p
+                m = p["baseToken"]["address"]
+                liq_raw = num((p.get("liquidity") or {}).get("usd"))   # often missing for pumpswap pools
+                liq = liq_raw or 0                                      # 0 only for choosing the deepest pool
+                if m not in best or liq > best[m]["_liq_cmp"]:
+                    p["_liq"] = liq_raw; p["_liq_cmp"] = liq; best[m] = p   # recorded blank when unknown, not 0
             except Exception:
                 continue
         time.sleep(0.25)
