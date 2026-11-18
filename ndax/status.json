@@ -1,19 +1,13 @@
 {
-"started": 1794986681,
-"ndax_connects": 3,
-"kraken_connects": 4,
-"ndax_msgs": 2576,
-"kraken_msgs": 725279,
-"trades": 879,
-"l1": 2273,
-"kraken_rows": 37802,
-"errors": [
-"07:54:59 kraken connection: ConnectionClosedError no close frame received or sent",
-"07:55:01 ndax connection: ConnectionClosedError no close frame received or sent",
-"07:55:29 ndax connection: ConnectionClosedError no close frame received or sent",
-"07:55:33 kraken connection: ConnectionClosedError no close frame received or sent",
-"07:56:28 kraken connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received"
-],
+"started": 1794989996,
+"ndax_connects": 1,
+"kraken_connects": 1,
+"ndax_msgs": 242,
+"kraken_msgs": 89495,
+"trades": 803,
+"l1": 207,
+"kraken_rows": 4029,
+"errors": [],
 "instruments": {
 "BTC": 1,
 "ETH": 3,
@@ -33,5 +27,5 @@
 "SUI": 123
 },
 "kraken_rejected": [],
-"last_flush": "2026-11-18 08:19:44"
+"last_flush": "2026-11-18 08:24:56"
 }
