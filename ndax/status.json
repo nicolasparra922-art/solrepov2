@@ -2,11 +2,11 @@
 "started": 1795019284,
 "ndax_connects": 1,
 "kraken_connects": 1,
-"ndax_msgs": 978,
-"kraken_msgs": 501392,
-"trades": 16096,
-"l1": 813,
-"kraken_rows": 14534,
+"ndax_msgs": 1277,
+"kraken_msgs": 650944,
+"trades": 16113,
+"l1": 1076,
+"kraken_rows": 19218,
 "errors": [],
 "instruments": {
 "BTC": 1,
@@ -28,5 +28,5 @@
 },
 "kraken_rejected": [],
 "backlog_requested": 1000,
-"last_flush": "2026-11-18 16:43:08"
+"last_flush": "2026-11-18 16:48:09"
 }
