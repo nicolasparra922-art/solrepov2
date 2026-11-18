@@ -12,7 +12,8 @@ import websockets
 
 NDAX_WS = "wss://api.ndax.io/WSGateway"
 KRAKEN_WS = "wss://ws.kraken.com/v2"
-COINS = ["BTC", "ETH", "SOL", "XRP", "DOGE", "ADA", "LINK", "HBAR", "SUI", "NEAR", "PEPE", "AVAX", "SHIB", "LTC", "DOT", "UNI"]
+COINS = ["BTC", "ETH", "SOL", "XRP", "DOGE", "ADA", "LINK", "HBAR", "SUI", "NEAR", "PEPE", "AVAX", "SHIB", "LTC", "DOT", "UNI",
+         "ICP", "XLM", "HYPE", "AAVE", "INJ", "PENGU", "BONK", "ONDO"]
 KRAKEN_SYMBOLS = [f"{c}/USD" for c in COINS] + ["BTC/CAD", "USDT/CAD", "USDC/CAD"]
 OUT = "ndax"
 FLUSH_SEC = 300
