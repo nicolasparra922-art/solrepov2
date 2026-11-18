@@ -13,7 +13,7 @@ RC = "https://api.rugcheck.xyz/v1"
 TRACK_HOURS = 48          # follow each token this long after first sight
 MAX_POOL_AGE_H = 72       # only pick up pools created within this window
 MIN_LIQ = 15000           # USD in the pool at first sight
-MAX_ACTIVE = 1200
+MAX_ACTIVE = 5000
 FAST_HOURS = 6           # snapshot every run while a token is this new
 SKIP = {"So11111111111111111111111111111111111111112", "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
         "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"}
