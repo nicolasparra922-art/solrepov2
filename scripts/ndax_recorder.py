@@ -84,14 +84,19 @@ async def ndax_loop(stop_at):
                             if p2 == "CAD" and p1 in COINS:
                                 inst_coin[x["InstrumentId"]] = p1
                 stats["instruments"] = {v: k for k, v in inst_coin.items()}
+                marker = f"{OUT}/backfill_done"
+                backlog = 50 if os.path.exists(marker) else 1000     # one-time request for older trades
+                stats["backlog_requested"] = backlog
                 for k, iid in enumerate(sorted(inst_coin)):
                     if k and k % 8 == 0:
                         seq += 2; await ws.send(frame(seq, "Ping", {}))
                     await asyncio.sleep(SUB_PAUSE); seq += 2
                     await ws.send(frame(seq, "SubscribeLevel1", {"OMSId": 1, "InstrumentId": iid}))
                     await asyncio.sleep(SUB_PAUSE); seq += 2
-                    await ws.send(frame(seq, "SubscribeTrades", {"OMSId": 1, "InstrumentId": iid, "IncludeLastCount": 50}))
+                    await ws.send(frame(seq, "SubscribeTrades", {"OMSId": 1, "InstrumentId": iid, "IncludeLastCount": backlog}))
                 backoff = 5
+                if backlog > 50:
+                    os.makedirs(OUT, exist_ok=True); open(marker, "w").write(str(int(time.time())))
                 last_ping = time.time()
                 while time.time() < stop_at:
                     if time.time() - last_ping > 15:     # NDAX's own keep-alive message
