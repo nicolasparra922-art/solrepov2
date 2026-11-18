@@ -1,4 +1,4 @@
-"""Records NDAX's public live feed (best bid/ask and every trade) plus Kraken's best bid/ask, for research.
+"""Records NDAX's public live feed (best bid/ask and every trade) plus Kraken's and Coinbase's best bid/ask, for research.
 
 Read-only public market data: no account, no keys, no orders. One connection to each exchange.
 NDAX subscriptions are paced slowly and reconnects back off, to stay well inside NDAX's limits.
@@ -12,6 +12,7 @@ import websockets
 
 NDAX_WS = "wss://api.ndax.io/WSGateway"
 KRAKEN_WS = "wss://ws.kraken.com/v2"
+COINBASE_WS = "wss://ws-feed.exchange.coinbase.com"    # public ticker channel, no account
 COINS = ["BTC", "ETH", "SOL", "XRP", "DOGE", "ADA", "LINK", "HBAR", "SUI", "NEAR", "PEPE", "AVAX", "SHIB", "LTC", "DOT", "UNI",
          "ICP", "XLM", "HYPE", "AAVE", "INJ", "PENGU", "BONK", "ONDO"]
 KRAKEN_SYMBOLS = [f"{c}/USD" for c in COINS] + ["BTC/CAD", "USDT/CAD", "USDC/CAD"]
@@ -19,9 +20,11 @@ OUT = "ndax"
 FLUSH_SEC = 300
 SUB_PAUSE = 1.5          # seconds between NDAX subscribe calls
 
-buf = {"l1": [], "trades": [], "kraken": []}
+buf = {"l1": [], "trades": [], "kraken": [], "coinbase": []}
 stats = {"started": int(time.time()), "ndax_connects": 0, "kraken_connects": 0, "ndax_msgs": 0, "kraken_msgs": 0,
-         "trades": 0, "l1": 0, "kraken_rows": 0, "errors": [], "instruments": {}, "kraken_rejected": []}
+         "trades": 0, "l1": 0, "kraken_rows": 0, "errors": [], "instruments": {}, "kraken_rejected": [],
+         "coinbase_connects": 0, "coinbase_msgs": 0, "coinbase_rows": 0}
+c_last = {}              # coinbase symbol -> last second written
 seen_trades = set()
 SELF_HASH = hashlib.sha256(open(__file__, "rb").read()).hexdigest()
 k_last = {}              # symbol -> (second, bid, ask) to keep at most one row per second per symbol
@@ -157,9 +160,44 @@ async def kraken_loop(stop_at):
         backoff = min(backoff * 2, 300)
 
 
+async def coinbase_loop(stop_at):
+    """Coinbase's public ticker (best bid/ask as of each trade there), at most one row per coin per second."""
+    backoff = 5
+    while time.time() < stop_at:
+        try:
+            async with websockets.connect(COINBASE_WS, ping_interval=20, ping_timeout=20, max_size=2 ** 22) as ws:
+                stats["coinbase_connects"] += 1
+                await ws.send(json.dumps({"type": "subscribe", "product_ids": [f"{c}-USD" for c in COINS], "channels": ["ticker"]}))
+                backoff = 5
+                while time.time() < stop_at:
+                    try:
+                        msg = json.loads(await asyncio.wait_for(ws.recv(), 60))
+                    except asyncio.TimeoutError:
+                        continue
+                    stats["coinbase_msgs"] += 1
+                    if msg.get("type") == "error":
+                        err(f"coinbase: {str(msg.get('message'))[:80]} {str(msg.get('reason'))[:80]}")
+                        continue
+                    if msg.get("type") != "ticker":
+                        continue
+                    now = time.time(); sec = int(now)
+                    s = str(msg.get("product_id", "")).replace("-", "/")
+                    if c_last.get(s) == sec:
+                        continue
+                    c_last[s] = sec
+                    buf["coinbase"].append([int(now * 1000), s, msg.get("best_bid"), msg.get("best_ask"), msg.get("price"), msg.get("last_size")])
+                    stats["coinbase_rows"] += 1
+                return
+        except Exception as e:
+            err(f"coinbase connection: {type(e).__name__} {str(e)[:120]}")
+        await asyncio.sleep(backoff)
+        backoff = min(backoff * 2, 300)
+
+
 HEAD = {"l1": ["exch_ts_ms", "recv_ts_ms", "coin", "bid", "ask", "last", "last_qty", "bid_qty", "ask_qty"],
         "trades": ["trade_ts_ms", "recv_ts_ms", "coin", "price", "qty", "taker_side", "direction", "trade_id"],
-        "kraken": ["recv_ts_ms", "symbol", "bid", "ask"]}
+        "kraken": ["recv_ts_ms", "symbol", "bid", "ask"],
+        "coinbase": ["recv_ts_ms", "symbol", "bid", "ask", "last", "last_size"]}
 
 
 def flush(final=False):
@@ -199,7 +237,7 @@ async def flusher(stop_at):
 
 async def main(seconds):
     stop_at = time.time() + seconds
-    await asyncio.gather(ndax_loop(stop_at), kraken_loop(stop_at), flusher(stop_at))
+    await asyncio.gather(ndax_loop(stop_at), kraken_loop(stop_at), coinbase_loop(stop_at), flusher(stop_at))
     flush(final=True)
 
 
