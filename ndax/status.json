@@ -2,11 +2,11 @@
 "started": 1795048292,
 "ndax_connects": 1,
 "kraken_connects": 2,
-"ndax_msgs": 1272,
-"kraken_msgs": 340029,
-"trades": 1240,
-"l1": 1159,
-"kraken_rows": 17077,
+"ndax_msgs": 1633,
+"kraken_msgs": 442002,
+"trades": 1243,
+"l1": 1498,
+"kraken_rows": 22011,
 "errors": [
 "00:40:42 kraken connection: ConnectionClosedError no close frame received or sent"
 ],
@@ -38,8 +38,8 @@
 },
 "kraken_rejected": [],
 "coinbase_connects": 1,
-"coinbase_msgs": 31793,
-"coinbase_rows": 5026,
+"coinbase_msgs": 40228,
+"coinbase_rows": 6494,
 "backlog_requested": 50,
-"last_flush": "2026-11-19 00:46:36"
+"last_flush": "2026-11-19 00:51:38"
 }
