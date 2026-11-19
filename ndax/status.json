@@ -2,10 +2,10 @@
 "started": 1795108146,
 "ndax_connects": 3,
 "kraken_connects": 2,
-"ndax_msgs": 5173,
+"ndax_msgs": 5174,
 "kraken_msgs": 2404651,
 "trades": 1351,
-"l1": 4753,
+"l1": 4754,
 "kraken_rows": 75046,
 "errors": [
 "17:38:48 kraken connection: ConnectionClosedError no close frame received or sent",
@@ -43,5 +43,5 @@
 "coinbase_msgs": 226038,
 "coinbase_rows": 23395,
 "backlog_requested": 50,
-"last_flush": "2026-11-19 18:04:06"
+"last_flush": "2026-11-19 18:04:16"
 }
