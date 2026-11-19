@@ -2,12 +2,14 @@
 "started": 1795061576,
 "ndax_connects": 1,
 "kraken_connects": 1,
-"ndax_msgs": 747,
-"kraken_msgs": 188605,
-"trades": 1234,
-"l1": 659,
-"kraken_rows": 10269,
-"errors": [],
+"ndax_msgs": 1161,
+"kraken_msgs": 293278,
+"trades": 1240,
+"l1": 1048,
+"kraken_rows": 15454,
+"errors": [
+"04:25:46 coinbase connection: ConnectionClosedError sent 1011 (internal error) keepalive ping timeout; no close frame received"
+],
 "instruments": {
 "BTC": 1,
 "ETH": 3,
@@ -35,9 +37,9 @@
 "HYPE": 156
 },
 "kraken_rejected": [],
-"coinbase_connects": 1,
-"coinbase_msgs": 14048,
-"coinbase_rows": 2793,
+"coinbase_connects": 2,
+"coinbase_msgs": 19659,
+"coinbase_rows": 3928,
 "backlog_requested": 50,
-"last_flush": "2026-11-19 04:22:58"
+"last_flush": "2026-11-19 04:27:59"
 }
