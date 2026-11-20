@@ -2,13 +2,14 @@
 "started": 1795198308,
 "ndax_connects": 1,
 "kraken_connects": 1,
-"ndax_msgs": 4226,
-"kraken_msgs": 1600964,
-"trades": 1517,
-"l1": 3721,
-"kraken_rows": 61301,
+"ndax_msgs": 4695,
+"kraken_msgs": 1802903,
+"trades": 1552,
+"l1": 4136,
+"kraken_rows": 68404,
 "errors": [
-"18:26:28 coinbase connection: ConnectionClosedOK received 1001 (going away); then sent 1001 (going away)"
+"18:26:28 coinbase connection: ConnectionClosedOK received 1001 (going away); then sent 1001 (going away)",
+"18:58:31 coinbase connection: ConnectionClosedError no close frame received or sent"
 ],
 "instruments": {
 "BTC": 1,
@@ -37,9 +38,9 @@
 "HYPE": 156
 },
 "kraken_rejected": [],
-"coinbase_connects": 2,
-"coinbase_msgs": 179980,
-"coinbase_rows": 22254,
+"coinbase_connects": 3,
+"coinbase_msgs": 198244,
+"coinbase_rows": 24748,
 "backlog_requested": 50,
-"last_flush": "2026-11-20 18:57:03"
+"last_flush": "2026-11-20 19:02:05"
 }
