@@ -2,11 +2,11 @@
 "started": 1795228214,
 "ndax_connects": 1,
 "kraken_connects": 1,
-"ndax_msgs": 1793,
-"kraken_msgs": 479172,
-"trades": 1342,
-"l1": 1540,
-"kraken_rows": 28610,
+"ndax_msgs": 2253,
+"kraken_msgs": 586554,
+"trades": 1358,
+"l1": 1965,
+"kraken_rows": 34376,
 "errors": [
 "02:30:19 coinbase connection: InvalidStatus server rejected WebSocket connection: HTTP 520"
 ],
@@ -38,8 +38,8 @@
 },
 "kraken_rejected": [],
 "coinbase_connects": 1,
-"coinbase_msgs": 33854,
-"coinbase_rows": 7770,
+"coinbase_msgs": 40683,
+"coinbase_rows": 9333,
 "backlog_requested": 50,
-"last_flush": "2026-11-21 02:55:21"
+"last_flush": "2026-11-21 03:00:22"
 }
