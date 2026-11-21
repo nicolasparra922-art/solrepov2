@@ -2,11 +2,11 @@
 "started": 1795238197,
 "ndax_connects": 1,
 "kraken_connects": 1,
-"ndax_msgs": 3556,
-"kraken_msgs": 1698115,
-"trades": 1486,
-"l1": 3082,
-"kraken_rows": 58722,
+"ndax_msgs": 3862,
+"kraken_msgs": 1904590,
+"trades": 1504,
+"l1": 3351,
+"kraken_rows": 65564,
 "errors": [],
 "instruments": {
 "BTC": 1,
@@ -36,8 +36,8 @@
 },
 "kraken_rejected": [],
 "coinbase_connects": 1,
-"coinbase_msgs": 105502,
-"coinbase_rows": 17981,
+"coinbase_msgs": 117175,
+"coinbase_rows": 20054,
 "backlog_requested": 50,
-"last_flush": "2026-11-21 06:01:50"
+"last_flush": "2026-11-21 06:06:51"
 }
