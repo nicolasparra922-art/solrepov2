@@ -36,8 +36,8 @@
 },
 "kraken_rejected": [],
 "coinbase_connects": 1,
-"coinbase_msgs": 100607,
-"coinbase_rows": 18024,
+"coinbase_msgs": 100608,
+"coinbase_rows": 18025,
 "backlog_requested": 50,
-"last_flush": "2026-11-21 12:39:43"
+"last_flush": "2026-11-21 12:39:53"
 }
